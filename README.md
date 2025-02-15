@@ -1,5 +1,6 @@
-HEAD
-"# My Project" 
+TALQS- Transformer-based Architecture for Legal Question Answering and Summarization.
 
-# ps-TALQS
- c1bcf3087d3b51d45596a2f546d0e19e7294537d
+
+Project Description:
+
+The legal system generates extensive and complex judgments, making it challenging for professionals and the general public to extract essential information efficiently. This project aims to design and implement Transformer-based models to address two critical objectives: summarizing legal judgments into concise and coherent summaries, and answering specific legal queries accurately based on the full text of judgments. With a dataset of judgments available in PDF format, pre-trained models like T5 and BERT optionally will be utilized to prepare annotated datasets for training.Transformer models will be developed from scratch, with randomly selected and diverse cases used to train each model independently. The summarization model will focus on providing overviews, while the question-answering model will extract precise answers from the full judgment text. Both models will be rigorously tested to evaluate their effectiveness and generalization capabilities, ensuring they meet the demands of real-world legal applications.

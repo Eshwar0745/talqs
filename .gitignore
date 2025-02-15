@@ -1,0 +1,31 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python virtual environment and compiled files
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs and temporary files
+logs/
+*.log
+
+# Ignore Node.js dependencies and build files
+node_modules/
+build/
+dist/
+
+# Ignore dataset and processed files
+dataset/raw_pdfs/
+dataset/processed/legal_cases.json
+
+# Ignore model checkpoints and large files
+models/
+checkpoints/
+
+# Ignore secret keys and environment variables
+.env
+config.json
