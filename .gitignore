@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -27,10 +28,19 @@ yarn-error.log*
 next-env.d.ts
 
 # Python backend
+=======
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python virtual environment and compiled files
+venv/
+>>>>>>> 426a213e5884b0b94168e7c02749b2b95703368f
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+<<<<<<< HEAD
 *dist/
 *eggs/
 *.egg-info/
@@ -50,3 +60,26 @@ models/
 # IDE / Editor specific files
 .vscode/
 .idea/
+=======
+
+# Ignore logs and temporary files
+logs/
+*.log
+
+# Ignore Node.js dependencies and build files
+node_modules/
+build/
+dist/
+
+# Ignore dataset and processed files
+dataset/raw_pdfs/
+dataset/processed/legal_cases.json
+
+# Ignore model checkpoints and large files
+models/
+checkpoints/
+
+# Ignore secret keys and environment variables
+.env
+config.json
+>>>>>>> 426a213e5884b0b94168e7c02749b2b95703368f
