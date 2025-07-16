@@ -1,0 +1,7 @@
+"use client"
+
+import TalqsAuthPage from "./talqs-login";
+
+export default function AuthPage() {
+  return <TalqsAuthPage />;
+}
