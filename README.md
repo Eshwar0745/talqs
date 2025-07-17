@@ -53,7 +53,7 @@ Download the model weights from Google Drive and place them inside the backend/m
 
 
 ```
-👉 [Download Weights](https://drive.google.com/drive/folders/1YYKWoPmnDcJ_kYcEL1lo1fuwKqjdwTnF?usp=drive_link)
+👉 [Download Weights](https://drive.google.com/drive/folders/1YYKWoPmnDcJ_kYcEL1lo1fuwKqjdwTnF?usp=sharing)
 
 ##  Running the App
 
