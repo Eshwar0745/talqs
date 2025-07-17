@@ -92,8 +92,6 @@ You need to run the backend servers and the frontend development server in separ
     ```bash
     npm run dev
     ```
-Thanks! Here's an updated version of the **README** snippet that includes instructions for downloading the model weights from the Google Drive link and placing them in the correct folder (`backend/models/summary_models`):
-
 ---
 
 ### 🧠 Model Weights
@@ -101,7 +99,7 @@ Thanks! Here's an updated version of the **README** snippet that includes instru
 To run the summarization models, you need to download the required model weights.
 
 📁 **Download the weights** from the following Google Drive folder:
-**[Model Weights – Google Drive](https://drive.google.com/drive/folders/1VZI6_zHe0_uPYv9TOKor4SMRkqKcrASP?usp=drive_link)**
+**[Model Weights](https://drive.google.com/drive/folders/1VZI6_zHe0_uPYv9TOKor4SMRkqKcrASP?usp=drive_link)**
 
 #### 📦 Instructions:
 
