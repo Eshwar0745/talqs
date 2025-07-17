@@ -1,119 +1,72 @@
-# TALQS - A Next.js and Python Application
+# TALQS – Transformer -Based Architecture For Legal QA & Summarization
 
-This project is a full-stack application with a Next.js frontend and a Python backend.
+**TALQS** is a full-stack web app built with **Next.js (frontend)** and **Python (backend)** that uses **Transformer models** to answer legal questions and summarize content.
 
-## Table of Contents
+## ⚙️ Features
+- Uses HuggingFace Transformers for NLP tasks.
+- Loads custom-trained `.pth` weights.
+- Full-stack: Next.js + Python.
+- Authentication via Google OAuth and NextAuth.js.
 
-- [Prerequisites](#prerequisites)
+## 📋 Table of Contents
+- [Prerequisites](#Prerequisites)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Running the Application](#running-the-application)
-- [Project Structure](#project-structure)
+- [Model Weights](#model-weights)
+- [Running the App](#running-the-app)
 
-## Prerequisites
+##  Prerequisites
 
-Before you begin, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python](https://www.python.org/) (v3.8+)
+- [pip](https://pip.pypa.io/)
 
-- [Node.js](https://nodejs.org/) (v18 or later recommended)
-- [Python](https://www.python.org/) (v3.8 or later recommended)
-- [pip](https://pip.pypa.io/en/stable/installation/) (Python package installer)
+##  Installation
 
-## Installation
+```bash
+git clone https://github.com/Eshwar0745/talqs.git
+cd talqs
+npm install            
+cd backend
+pip install -r requirements.txt
+cd ..
+```
+##  Configuration
+```bash
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <your-repository-url>
-    cd <repository-name>
-    ```
+Frontend (.env.local)
 
-2.  **Install frontend dependencies:**
-    Navigate to the root directory and run:
-    ```bash
-    npm install
-    ```
+MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>/<db>
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 
-3.  **Install backend dependencies:**
-    Navigate to the `backend` directory and run:
-    ```bash
-    cd backend
-    pip install -r requirements.txt
-    cd ..
-    ```
+Backend
+Check server.py or qa_server.py for os.getenv() variables and set accordingly.
+```
+##  Model Weights
+```bash
 
-## Configuration
-
-This project requires environment variables to run correctly. These variables handle things like database connections and authentication keys.
-
-### Frontend Configuration
-
-1.  In the root directory of the project, create a file named `.env.local`.
-
-2.  Add the necessary environment variables to this file. You will need to provide your own values. Here is an example based on the project's dependencies:
-
-    ```env
-    # MongoDB Connection String
-    MONGODB_URI=mongodb+srv://<user>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
-
-    # NextAuth.js Configuration
-    # You can generate a secret using `openssl rand -base64 32` on Linux/Mac or use an online generator
-    NEXTAUTH_SECRET=
-    NEXTAUTH_URL=http://localhost:3000
-
-    # Google Provider for NextAuth.js
-    # Get these from the Google Cloud Console for your project
-    GOOGLE_CLIENT_ID=
-    GOOGLE_CLIENT_SECRET=
-    ```
-
-### Backend Configuration
-
-The Python backend might also require environment variables. Check the backend source code (`server.py`, `qa_server.py`, `app.py`) for any `os.getenv` or `os.environ.get` calls to see what is required.
-
-## Running the Application
-
-You need to run the backend servers and the frontend development server in separate terminals.
-
-1.  **Start the Backend Servers:**
-    Open a terminal, navigate to the `backend` directory, and run the following commands. It's recommended to run each in a separate terminal tab or window.
-
-    ```bash
-    # In the backend/ directory
-    python server.py
-    ```
-
-    ```bash
-    # In another terminal, in the backend/ directory
-    python qa_server.py
-    ```
-
-2.  **Start the Frontend Development Server:**
-    Open another terminal, navigate to the **root** directory of the project, and run:
-
-    ```bash
-    npm run dev
-    ```
----
-
-### 🧠 Model Weights
-
-To run the summarization models, you need to download the required model weights.
-
-📁 **Download the weights** from the following Google Drive folder:
-**[Model Weights](https://drive.google.com/drive/folders/1VZI6_zHe0_uPYv9TOKor4SMRkqKcrASP?usp=drive_link)**
-
-#### 📦 Instructions:
-
-1. Download all files from the link above.
-2. Create the directory if it doesn't exist:
-
-   ```bash
-   mkdir -p backend/models/summary_models
-   ```
-3. Place all downloaded files into the following folder:
-
-   ```
-   backend/models/summary_models
-   ```
+Download the model weights from Google Drive and place them inside the backend/models/ folder:
 
 
-> These weights are required for the summarization service to function correctly.
+
+```
+👉 [Download Weights](https://drive.google.com/drive/folders/1YYKWoPmnDcJ_kYcEL1lo1fuwKqjdwTnF?usp=drive_link)
+
+##  Running the App
+
+```bash
+# Terminal 1
+cd backend
+python server.py
+
+# Terminal 2
+cd backend
+python qa_server.py
+
+# Terminal 3
+npm run dev
+
+App runs at: http://localhost:3000
