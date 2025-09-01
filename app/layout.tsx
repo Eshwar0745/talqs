@@ -1,17 +1,10 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/lib/auth-context"
 import NextAuthSessionProvider from "./session-provider"
 import { StoreOAuthUserToLocalStorage } from "@/components/store-google-user";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
 
 export const metadata: Metadata = {
   title: "TALQS - AI-Powered Legal Summarization and Q&A",
@@ -30,7 +23,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased font-sans">
         <NextAuthSessionProvider>
           <StoreOAuthUserToLocalStorage />
           <AuthProvider>
