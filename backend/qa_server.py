@@ -3,8 +3,10 @@ import torch
 import math
 import torch.nn as nn
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List, Optional
+import re
 
 # Define the QA model architecture (same style as summarizer)
 class CustomEncoderDecoderQA(nn.Module):
@@ -41,6 +43,20 @@ app = FastAPI()
 
 # Device setup
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+# Initialize model and tokenizer
+try:
+    print("Loading QA model and tokenizer...")
+    tokenizer = T5Tokenizer.from_pretrained("t5-small")
+    model = T5ForConditionalGeneration.from_pretrained("t5-small")
+    model.eval()
+    model.to(device)
+    print("QA model loaded successfully")
+except Exception as e:
+    print(f"Error loading QA model: {str(e)}")
+    model = None
+    tokenizer = None
 
 # Load tokenizer and model
 # Using a different tokenizer approach that doesn't require SentencePiece
@@ -54,21 +70,22 @@ except ImportError:
     tokenizer = AutoTokenizer.from_pretrained("t5-small", use_fast=True)
     print("Using AutoTokenizer as fallback")
 
-# Load model with direct path that worked on May 29th
-model = CustomEncoderDecoderQA(pretrained_model_name="t5-small").to(device)
-
-# Use absolute path for consistent loading
-absolute_path = "c:/Users/eshwa/OneDrive/Pictures/content/RAW/models/summary_model/model_weight_1.pth"
-
+# First try to load the custom model weights
 try:
-    print(f"Loading QA model weights from {absolute_path}")
-    model.load_state_dict(torch.load(absolute_path, map_location=device))
+    model_path = "model_weight_1.pth"  # Using the smaller model file
+    print(f"Attempting to load model from {model_path}...")
+    model = CustomEncoderDecoderQA(pretrained_model_name="t5-small").to(device)  
+    model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
-    print(f"Successfully loaded QA model weights")
+    print("Successfully loaded custom QA model")
 except Exception as e:
-    print(f"Warning: Could not load custom model weights: {e}")
-    print("Using base model instead")
+    print(f"Error loading custom QA model: {str(e)}")
+    model_path = "model_weight_1.pth"  # Using the smaller model file
+    print(f"Attempting to load model from {model_path}...")
+    model = T5ForConditionalGeneration.from_pretrained("t5-small").to(device)  # Using base T5 model for now
+    # model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
+    print("Successfully loaded T5 base model")
 
 # Input schema
 class QARequest(BaseModel):
@@ -119,10 +136,9 @@ def answer_bulk_questions(request: BulkQARequest):
                 early_stopping=True,
             )
         answer = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-        print(f"Answer: {answer}")
         results.append({"question": question, "answer": answer})
 
-    return {"answers": results}
+    return {"qa_results": results}
 
 # Single question answering endpoint
 @app.post("/answer")
