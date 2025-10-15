@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/qa/(.*)", "destination": "https://talqs-qa.onrender.com/$1" },
+    { "source": "/api/summarize/(.*)", "destination": "https://talqs-summarizer.onrender.com/$1" }
+  ]
+}
