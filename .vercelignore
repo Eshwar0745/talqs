@@ -1,0 +1,33 @@
+# Exclude backend services and heavy assets from Vercel upload
+backend/
+models/
+data/
+
+# Python/venv caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Node/Next build artifacts
+node_modules/
+.pnpm-store/
+.next/
+
+# Large model/checkpoint files
+*.pth
+*.pt
+*.bin
+*.onnx
+
+# Misc caches
+.cache/
+pytest_cache/
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Optional: keep public assets, but exclude huge datasets if any existed
+# public/datasets/

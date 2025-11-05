@@ -88,8 +88,8 @@ except Exception as e:
 model = CustomEncoderDecoderSummarizer(pretrained_model_name="t5-base").to(device)
 
 # Resolve model path under project root unless MODEL_PATH is provided
-project_root = os.path.dirname(os.path.dirname(__file__))
-default_model_path = os.path.join(project_root, "models", "summary_model", "model_weight.pth")
+# Prefer a model inside the backend folder by default (user provided path)
+default_model_path = os.path.join(os.path.dirname(__file__), "model_weight.pth")
 model_path = os.environ.get("MODEL_PATH", default_model_path)
 model_url = os.environ.get("MODEL_URL")
 

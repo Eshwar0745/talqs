@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 import re
+import os
 
 # Define the QA model architecture (same style as summarizer)
 class CustomEncoderDecoderQA(nn.Module):
@@ -70,22 +71,22 @@ except ImportError:
     tokenizer = AutoTokenizer.from_pretrained("t5-small", use_fast=True)
     print("Using AutoTokenizer as fallback")
 
-# First try to load the custom model weights
+# Resolve model path under backend unless MODEL_PATH is provided
+default_model_path = os.path.join(os.path.dirname(__file__), "model_weight_1.pth")
+model_path = os.environ.get("MODEL_PATH", default_model_path)
+
+# Try to load the custom model weights
 try:
-    model_path = "model_weight_1.pth"  # Using the smaller model file
-    print(f"Attempting to load model from {model_path}...")
-    model = CustomEncoderDecoderQA(pretrained_model_name="t5-small").to(device)  
+    print(f"Attempting to load QA model from {model_path}...")
+    model = CustomEncoderDecoderQA(pretrained_model_name="t5-small").to(device)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
     print("Successfully loaded custom QA model")
 except Exception as e:
-    print(f"Error loading custom QA model: {str(e)}")
-    model_path = "model_weight_1.pth"  # Using the smaller model file
-    print(f"Attempting to load model from {model_path}...")
-    model = T5ForConditionalGeneration.from_pretrained("t5-small").to(device)  # Using base T5 model for now
-    # model.load_state_dict(torch.load(model_path, map_location=device))
+    print(f"Warning: Could not load custom QA model from '{model_path}': {e}")
+    print("Falling back to base T5 model")
+    model = T5ForConditionalGeneration.from_pretrained("t5-small").to(device)
     model.eval()
-    print("Successfully loaded T5 base model")
 
 # Input schema
 class QARequest(BaseModel):
@@ -126,7 +127,8 @@ def answer_bulk_questions(request: BulkQARequest):
         input_ids = tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True).to(device)
 
         with torch.no_grad():
-            output_ids = model.t5.generate(
+            generator = model.t5.generate if hasattr(model, "t5") else getattr(model, "generate")
+            output_ids = generator(
                 input_ids=input_ids,
                 max_length=100,
                 num_beams=4,
@@ -150,7 +152,8 @@ def answer_question(request: QARequest):
     input_ids = tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True).to(device)
 
     with torch.no_grad():
-        output_ids = model.t5.generate(
+        generator = model.t5.generate if hasattr(model, "t5") else getattr(model, "generate")
+        output_ids = generator(
             input_ids=input_ids,
             max_length=100,
             num_beams=4,
@@ -167,5 +170,6 @@ def answer_question(request: QARequest):
 # Start the server if this file is run directly
 if __name__ == "__main__":
     import uvicorn
-    print("Starting QA server on port 8000...")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", os.environ.get("QA_PORT", "8000")))
+    print(f"Starting QA server on port {port}...")
+    uvicorn.run(app, host="0.0.0.0", port=port)
