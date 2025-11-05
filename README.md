@@ -1,5 +1,72 @@
-TALQS- Transformer-based Architecture for Legal Question Answering and Summarization.
+# TALQS – Transformer -Based Architecture For Legal QA & Summarization
 
-Project Description:
+**TALQS** is a full-stack web app built with **Next.js (frontend)** and **Python (backend)** that uses **Transformer models** to answer legal questions and summarize content.
 
-The legal system generates extensive and complex judgments, making it challenging for professionals and the general public to extract essential information efficiently. This project aims to design and implement Transformer-based models to address two critical objectives: summarizing legal judgments into concise and coherent summaries, and answering specific legal queries accurately based on the full text of judgments. With a dataset of judgments available in PDF format, pre-trained models like T5 and BERT optionally will be utilized to prepare annotated datasets for training.Transformer models will be developed from scratch, with randomly selected and diverse cases used to train each model independently. The summarization model will focus on providing overviews, while the question-answering model will extract precise answers from the full judgment text. Both models will be rigorously tested to evaluate their effectiveness and generalization capabilities, ensuring they meet the demands of real-world legal applications.
+## ⚙️ Features
+- Uses HuggingFace Transformers for NLP tasks.
+- Loads custom-trained `.pth` weights.
+- Full-stack: Next.js + Python.
+- Authentication via Google OAuth and NextAuth.js.
+
+## 📋 Table of Contents
+- [Prerequisites](#Prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Model Weights](#model-weights)
+- [Running the App](#running-the-app)
+
+##  Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python](https://www.python.org/) (v3.8+)
+- [pip](https://pip.pypa.io/)
+
+##  Installation
+
+```bash
+git clone https://github.com/Eshwar0745/talqs.git
+cd talqs
+npm install            
+cd backend
+pip install -r requirements.txt
+cd ..
+```
+##  Configuration
+```bash
+
+Frontend (.env.local)
+
+MONGODB_URI=mongodb+srv://<user>:<pass>@<cluster>/<db>
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+Backend
+Check server.py or qa_server.py for os.getenv() variables and set accordingly.
+```
+##  Model Weights
+```bash
+
+Download the model weights from Google Drive and place them inside the backend/models/ folder:
+
+
+
+```
+👉 [Download Weights](https://drive.google.com/drive/folders/1YYKWoPmnDcJ_kYcEL1lo1fuwKqjdwTnF?usp=sharing)
+
+##  Running the App
+
+```bash
+# Terminal 1
+cd backend
+python server.py
+
+# Terminal 2
+cd backend
+python qa_server.py
+
+# Terminal 3
+npm run dev
+
+App runs at: http://localhost:3000
